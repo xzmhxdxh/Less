@@ -1,0 +1,210 @@
+/*
+Theme Name: Less
+Theme URI: https://less-theme.com
+Author: Less Theme
+Author URI: https://less-theme.com
+Description: A clean, responsive news theme built with Tailwind CSS.
+Version: 1.0.0
+License: GNU General Public License v2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
+Text Domain: less
+Tags: news, blog, responsive, two-columns, custom-menu, featured-images
+*/
+
+/* Custom styles not handled by Tailwind can go here */
+html {
+    overflow-y: scroll;
+}
+body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; }
+
+.line-clamp-2 {
+    display: -webkit-box !important;
+    -webkit-line-clamp: 2 !important;
+    -webkit-box-orient: vertical !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis;
+    word-break: break-word;
+    /* text-base (16px) * leading-relaxed (1.625) * 2 lines = 3.25em */
+    max-height: 3.25em; 
+    line-height: 1.625; /* Ensure line-height matches leading-relaxed */
+}
+
+/* Submenu Styles */
+.sub-menu {
+    display: none;
+}
+.group:hover .sub-menu {
+    display: block;
+}
+
+/* Fix like count color inheritance */
+.js-like-post .like-count {
+    color: inherit !important;
+}
+
+/*
+========================================
+Article Content Typography Styles
+========================================
+*/
+
+/* Base Typography */
+.entry-content {
+    font-size: 1rem; /* 16px */
+    line-height: 1.75;
+}
+
+.entry-content h1,
+.entry-content h2,
+.entry-content h3,
+.entry-content h4,
+.entry-content h5,
+.entry-content h6 {
+    color: #1a202c; /* text-gray-900 */
+    font-weight: 600;
+    margin-top: 2em;
+    margin-bottom: 1em;
+    line-height: 1.3;
+}
+
+/* Remove top margin for the first element to avoid excessive spacing */
+.entry-content > div > :first-child {
+    margin-top: 0;
+}
+
+.dark .entry-content h1,
+.dark .entry-content h2,
+.dark .entry-content h3,
+.dark .entry-content h4,
+.dark .entry-content h5,
+.dark .entry-content h6 {
+    color: #f7fafc; /* text-gray-100 */
+}
+
+/* H1 - Title Style (Rarely used in content) */
+.entry-content h1 {
+    font-size: 1.875rem; /* 30px */
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid #e2e8f0;
+}
+.dark .entry-content h1 {
+    border-bottom-color: #4a5568;
+}
+
+/* H2 - Major Section */
+.entry-content h2 {
+    font-size: 1.5rem; /* 24px */
+    padding-left: 1rem;
+    border-left: 4px solid #3b5dce; /* Primary Color */
+    background: linear-gradient(to right, rgba(59, 93, 206, 0.05), transparent);
+    padding-top: 0.25rem;
+    padding-bottom: 0.25rem;
+}
+.dark .entry-content h2 {
+    background: linear-gradient(to right, rgba(59, 93, 206, 0.15), transparent);
+}
+
+/* H3 - Sub Section */
+.entry-content h3 {
+    font-size: 1.25rem; /* 20px */
+    padding-left: 0.75rem;
+    border-left: 3px solid #cbd5e0; /* text-gray-400 */
+}
+.dark .entry-content h3 {
+    border-left-color: #4a5568;
+}
+
+/* H4 - Minor Section */
+.entry-content h4 {
+    font-size: 1.125rem; /* 18px */
+    font-weight: 700;
+}
+
+/* Paragraphs */
+.entry-content p {
+    margin-bottom: 1.5em;
+    text-align: justify;
+}
+
+/* Lists */
+.entry-content ul, 
+.entry-content ol {
+    margin-bottom: 1.5em;
+    padding-left: 1.5em;
+}
+.entry-content ul {
+    list-style-type: disc;
+}
+.entry-content ol {
+    list-style-type: decimal;
+}
+.entry-content li {
+    margin-bottom: 0.5em;
+    padding-left: 0.5em;
+}
+.entry-content li::marker {
+    color: #3b5dce; /* Primary Color */
+}
+
+/* Blockquotes */
+.entry-content blockquote {
+    border-left: 4px solid #3b5dce;
+    background-color: #f8fafc; /* bg-gray-50 */
+    padding: 1rem 1.5rem;
+    margin: 1.5em 0;
+    font-style: italic;
+    color: #4a5568; /* text-gray-700 */
+    border-radius: 0 0.5rem 0.5rem 0;
+}
+.dark .entry-content blockquote {
+    background-color: #2d3748; /* bg-gray-800 */
+    color: #cbd5e0; /* text-gray-300 */
+}
+
+/* Links */
+.entry-content a {
+    color: #3b5dce;
+    text-decoration: none;
+    border-bottom: 1px dashed #3b5dce;
+    transition: all 0.2s;
+}
+/* Exclude tags from entry-content link styles */
+.entry-content .entry-tags a {
+    border-bottom: none;
+    color: inherit;
+}
+.entry-content .entry-tags a:hover {
+    color: #ffffff;
+    border-bottom: none;
+}
+
+.entry-content a:hover {
+    color: #2c469c;
+    border-bottom-style: solid;
+}
+/* Fix hover conflict for tags */
+.entry-content .entry-tags a:hover {
+    color: #ffffff;
+}
+
+/* Images */
+.entry-content img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 0.5rem;
+    margin: 1.5em 0;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+/* Tables */
+.entry-content table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.5em 0;
+    font-size: 0.95em;
+}
+.entry-content th,
+.entry-content td {
+    padding: 0.75rem;
+    border: 1px solid #e2e8f0;
+}

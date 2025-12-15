@@ -386,6 +386,6 @@ function less_widgets_scripts( $hook ) {
         return;
     }
     wp_enqueue_media();
-    wp_enqueue_script( 'less-admin-script', get_template_directory_uri() . '/assets/js/admin.js', array( 'jquery' ), '1.0.0', true );
+    wp_enqueue_script( 'less-admin-script', get_template_directory_uri() . '/assets/js/admin.js', array( 'jquery' ), '1.0.1', true );
 }
 add_action( 'admin_enqueue_scripts', 'less_widgets_scripts' );

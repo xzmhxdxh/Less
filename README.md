@@ -1,3 +1,5 @@
+![Less Theme Demo](https://less-theme.com/wp-content/uploads/2025/12/demo-scaled.png)
+
 # 📝 Less WordPress Theme
 
 > “一直想做一款自己的 WordPress 主题，不需要功能太复杂，简单够用就好。

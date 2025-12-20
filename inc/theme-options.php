@@ -30,7 +30,7 @@ function less_admin_scripts( $hook ) {
     }
     wp_enqueue_media();
     wp_enqueue_script( 'jquery-ui-sortable' );
-    wp_enqueue_script( 'less-admin-script', get_template_directory_uri() . '/assets/js/admin.js', array( 'jquery', 'jquery-ui-sortable' ), '1.0.1', true );
+    wp_enqueue_script( 'less-admin-script', get_template_directory_uri() . '/assets/js/admin.js', array( 'jquery', 'jquery-ui-sortable' ), '1.0.3', true );
 }
 add_action( 'admin_enqueue_scripts', 'less_admin_scripts' );
 
@@ -543,7 +543,7 @@ function less_options_page_html() {
                     </tr>
                     <tr valign="top">
                         <th scope="row">版本号</th>
-                        <td>1.0.2 (2025.12.20)</td>
+                        <td>1.0.3 (2025.12.20)</td>
                     </tr>
                     <tr valign="top">
                         <th scope="row">主题官网</th>

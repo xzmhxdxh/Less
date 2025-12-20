@@ -137,33 +137,17 @@ add_filter( 'document_title_parts', 'less_seo_title' );
  * Enqueue scripts and styles.
  */
 function less_scripts() {
-	// Tailwind CSS CDN
-	wp_enqueue_script( 'tailwind', 'https://cdn.tailwindcss.com', array(), null, false );
-
-    // Tailwind Config
-    $tailwind_config = "
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-                extend: {
-                    colors: {
-                        primary: '#3b5dce',
-                        secondary: '#2d3237',
-                    }
-                }
-            }
-        }
-    ";
-    wp_add_inline_script( 'tailwind', $tailwind_config, 'after' );
+	// Tailwind CSS (Local)
+	wp_enqueue_style( 'less-tailwind', get_template_directory_uri() . '/assets/css/style.min.css', array(), '1.0.3' );
 
 	// Font Awesome
 	// wp_enqueue_style( 'font-awesome', 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css', array(), '6.5.1' );
 
 	// Theme Styles
-	wp_enqueue_style( 'less-style', get_stylesheet_uri(), array(), '1.0.2' );
+	wp_enqueue_style( 'less-style', get_stylesheet_uri(), array(), '1.0.3' );
 
 	// Theme Main JS
-	wp_enqueue_script( 'less-main', get_template_directory_uri() . '/assets/js/main.js', array( 'jquery' ), '1.0.2', true );
+	wp_enqueue_script( 'less-main', get_template_directory_uri() . '/assets/js/main.js', array( 'jquery' ), '1.0.3', true );
     
     // Get Theme Options
     $options = get_option( 'less_options' );

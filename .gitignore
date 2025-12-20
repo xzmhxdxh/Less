@@ -1,1 +1,30 @@
-CHANGELOG.md
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Node.js
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Editor directories and files
+.idea/
+.vscode/
+*.suo
+*.ntvs
+*.njsproj
+*.sln
+*.sw?
+
+# Build outputs (Optional: if you want to commit built CSS, keep this commented out. If you want to force users to build, uncomment)
+# assets/css/style.min.css
+
+# System
+.AppleDouble
+.LSOverride
+changelog.md

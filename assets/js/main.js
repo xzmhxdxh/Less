@@ -194,6 +194,81 @@ jQuery(document).ready(function($) {
             }
         });
     });
+    
+    // Sticky Widgets Logic
+    function updateStickyWidgets() {
+        var $stickyWidgets = $('.widget-sticky');
+        if ($stickyWidgets.length === 0) return;
+
+        var headerOffset = 80; // Header height + some buffer
+        var gap = 20; // Gap between stacked widgets
+
+        var viewportWidth = $(window).width();
+
+        // Disable on mobile
+        if (viewportWidth < 1024) { 
+            $stickyWidgets.css({
+                'position': '',
+                'top': '',
+                'z-index': ''
+            });
+            return;
+        }
+
+        var currentTop = headerOffset;
+
+        $stickyWidgets.each(function() {
+            var $widget = $(this);
+            
+            // Get height (without resetting position to avoid flicker)
+            // Note: If content changes, height might change. 
+            // But usually widget height is stable.
+            var widgetHeight = $widget.outerHeight();
+            
+            $widget.css({
+                'position': 'sticky',
+                'top': currentTop + 'px',
+                'z-index': '30'
+            });
+            
+            // Increment currentTop for next widget
+            currentTop += widgetHeight + gap;
+        });
+    }
+
+    function initStickyWidgets() {
+        // Log all widgets for debugging
+        var $allWidgets = $('.widget');
+        console.log('Less Theme Debug: Found ' + $allWidgets.length + ' total widgets.');
+        $allWidgets.each(function(i) {
+            console.log('Widget ' + i + ' classes: ' + $(this).attr('class'));
+        });
+
+        var $stickyWidgets = $('.widget-sticky');
+        console.log('Less Theme Debug: Found ' + $stickyWidgets.length + ' sticky widgets.');
+
+        // Initial check
+        if ($stickyWidgets.length > 0) {
+            updateStickyWidgets();
+            
+            // Bind events (namespace to avoid duplicates)
+            $(window).off('scroll.less_sticky resize.less_sticky').on('scroll.less_sticky resize.less_sticky', function() {
+                // Use requestAnimationFrame for performance
+                window.requestAnimationFrame(updateStickyWidgets);
+            });
+        }
+    }
+    
+    // Run after images loaded or window load to ensure heights are correct
+    $(window).on('load', function() {
+        updateStickyWidgets();
+        // Trigger again after a short delay
+        setTimeout(updateStickyWidgets, 500);
+        setTimeout(updateStickyWidgets, 1500); // Extra check for slow ads
+    });
+    
+    // Also run on ready
+    initStickyWidgets();
 
     // Load More Posts
     $('#load-more-posts').on('click', function(e) {

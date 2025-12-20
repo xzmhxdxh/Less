@@ -53,6 +53,7 @@ function less_options_page_html() {
         'hero_interval'          => 5,
         'posts_per_page_home'    => 10,
         'posts_per_page_archive' => 10,
+        'show_list_cat'          => 1,
     );
     $options = get_option( 'less_options', $defaults );
     $active_tab = isset( $_GET['tab'] ) ? $_GET['tab'] : 'general';
@@ -458,6 +459,14 @@ function less_options_page_html() {
                         </td>
                     </tr>
                     <tr valign="top">
+                        <th scope="row">列表封面图所属分类显示</th>
+                        <td>
+                            <input type="hidden" name="less_options[show_list_cat]" value="0">
+                            <input type="checkbox" name="less_options[show_list_cat]" value="1" <?php checked( ! isset($options['show_list_cat']) || $options['show_list_cat'] == 1 ); ?>>
+                            <label for="less_options[show_list_cat]">在文章列表封面图左上角显示所属分类（默认开启）</label>
+                        </td>
+                    </tr>
+                    <tr valign="top">
                         <th scope="row">显示作者名</th>
                         <td>
                             <input type="checkbox" name="less_options[show_author]" value="1" <?php checked( isset($options['show_author']) && $options['show_author'] == 1 ); ?>>
@@ -534,7 +543,7 @@ function less_options_page_html() {
                     </tr>
                     <tr valign="top">
                         <th scope="row">版本号</th>
-                        <td>1.0.1 (2025.12.15)</td>
+                        <td>1.0.2 (2025.12.20)</td>
                     </tr>
                     <tr valign="top">
                         <th scope="row">主题官网</th>
@@ -542,7 +551,7 @@ function less_options_page_html() {
                     </tr>
                     <tr valign="top">
                         <th scope="row">Github 存档</th>
-                        <td><a href="https://less-theme.com" target="_blank">https://less-theme.com</a></td>
+                        <td><a href="https://github.com/xzmhxdxh/Lessm" target="_blank">https://github.com/xzmhxdxh/Less</a></td>
                     </tr>
                     <tr valign="top">
                         <th scope="row">交流 QQ 群</th>

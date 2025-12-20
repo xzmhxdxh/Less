@@ -1,8 +1,9 @@
 <article id="post-<?php the_ID(); ?>" <?php post_class( 'bg-white dark:bg-gray-800 p-5 rounded-lg shadow-sm hover:shadow-md transition-shadow flex flex-col md:flex-row gap-5' ); ?>>
     <div class="w-full md:w-60 aspect-[3/2] bg-gray-200 dark:bg-gray-700 rounded shrink-0 overflow-hidden relative group">
         <?php 
+        $options = get_option( 'less_options' );
         $categories = get_the_category();
-        if ( ! empty( $categories ) ) : ?>
+        if ( ! empty( $categories ) && ( ! isset( $options['show_list_cat'] ) || $options['show_list_cat'] ) ) : ?>
             <a href="<?php echo esc_url( get_category_link( $categories[0]->term_id ) ); ?>" class="absolute top-2 left-2 bg-primary text-white text-xs px-2 py-1 rounded shadow-sm hover:bg-blue-600 transition-colors z-10"><?php echo esc_html( $categories[0]->name ); ?></a>
         <?php endif; ?>
         
@@ -30,7 +31,6 @@
         <div class="flex items-center justify-between text-xs text-gray-400">
             <div class="flex items-center gap-4">
                 <?php
-                $options = get_option( 'less_options' );
                 if ( isset( $options['show_author'] ) && $options['show_author'] ) : ?>
                     <span class="flex items-center gap-1"><?php echo less_get_icon( 'user', '', 'regular' ); ?> <?php the_author(); ?></span>
                 <?php endif; ?>

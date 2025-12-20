@@ -55,12 +55,24 @@ class Less_Recent_Posts_Widget extends WP_Widget {
     }
 
     public function widget( $args, $instance ) {
+        $number = ! empty( $instance['number'] ) ? absint( $instance['number'] ) : 5;
+        $is_sticky = isset( $instance['is_sticky'] ) ? (bool) $instance['is_sticky'] : false;
+
+        if ( $is_sticky ) {
+            // Try a more aggressive replacement if the specific one fails, but keep the specific one first
+            // If class="widget exists, replace it.
+            if ( strpos( $args['before_widget'], 'class="widget' ) !== false ) {
+                 $args['before_widget'] = str_replace( 'class="widget', 'class="widget widget-sticky', $args['before_widget'] );
+            } else {
+                 // Fallback: just insert after class="
+                 $args['before_widget'] = str_replace( 'class="', 'class="widget-sticky ', $args['before_widget'] );
+            }
+        }
+
         echo $args['before_widget'];
         if ( ! empty( $instance['title'] ) ) {
             echo $args['before_title'] . apply_filters( 'widget_title', $instance['title'] ) . $args['after_title'];
         }
-
-        $number = ! empty( $instance['number'] ) ? absint( $instance['number'] ) : 5;
         
         $r = new WP_Query( array(
             'posts_per_page'      => $number,
@@ -104,6 +116,7 @@ class Less_Recent_Posts_Widget extends WP_Widget {
     public function form( $instance ) {
         $title  = isset( $instance['title'] ) ? esc_attr( $instance['title'] ) : '';
         $number = isset( $instance['number'] ) ? absint( $instance['number'] ) : 5;
+        $is_sticky = isset( $instance['is_sticky'] ) ? (bool) $instance['is_sticky'] : false;
         ?>
         <p>
             <label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php esc_html_e( '标题:', 'less' ); ?></label>
@@ -113,6 +126,10 @@ class Less_Recent_Posts_Widget extends WP_Widget {
             <label for="<?php echo $this->get_field_id( 'number' ); ?>"><?php esc_html_e( '显示文章数量:', 'less' ); ?></label>
             <input class="tiny-text" id="<?php echo $this->get_field_id( 'number' ); ?>" name="<?php echo $this->get_field_name( 'number' ); ?>" type="number" step="1" min="1" value="<?php echo $number; ?>" size="3" />
         </p>
+        <p>
+            <input class="checkbox" type="checkbox" <?php checked( $is_sticky ); ?> id="<?php echo $this->get_field_id( 'is_sticky' ); ?>" name="<?php echo $this->get_field_name( 'is_sticky' ); ?>" />
+            <label for="<?php echo $this->get_field_id( 'is_sticky' ); ?>"><?php esc_html_e( '随动（固定在侧边栏）', 'less' ); ?></label>
+        </p>
         <?php
     }
 
@@ -120,6 +137,7 @@ class Less_Recent_Posts_Widget extends WP_Widget {
         $instance = $old_instance;
         $instance['title']  = sanitize_text_field( $new_instance['title'] );
         $instance['number'] = (int) $new_instance['number'];
+        $instance['is_sticky'] = isset( $new_instance['is_sticky'] ) ? (bool) $new_instance['is_sticky'] : false;
         return $instance;
     }
 }
@@ -138,12 +156,21 @@ class Less_Popular_Posts_Widget extends WP_Widget {
 
     public function widget( $args, $instance ) {
         $options = get_option( 'less_options' );
+        $number = ! empty( $instance['number'] ) ? absint( $instance['number'] ) : 5;
+        $is_sticky = isset( $instance['is_sticky'] ) ? (bool) $instance['is_sticky'] : false;
+
+        if ( $is_sticky ) {
+             if ( strpos( $args['before_widget'], 'class="widget' ) !== false ) {
+                  $args['before_widget'] = str_replace( 'class="widget', 'class="widget widget-sticky', $args['before_widget'] );
+             } else {
+                  $args['before_widget'] = str_replace( 'class="', 'class="widget-sticky ', $args['before_widget'] );
+             }
+        }
+
         echo $args['before_widget'];
         if ( ! empty( $instance['title'] ) ) {
             echo $args['before_title'] . apply_filters( 'widget_title', $instance['title'] ) . $args['after_title'];
         }
-
-        $number = ! empty( $instance['number'] ) ? absint( $instance['number'] ) : 5;
         
         $r = new WP_Query( array(
             'posts_per_page'      => $number,
@@ -197,6 +224,7 @@ class Less_Popular_Posts_Widget extends WP_Widget {
     public function form( $instance ) {
         $title  = isset( $instance['title'] ) ? esc_attr( $instance['title'] ) : '';
         $number = isset( $instance['number'] ) ? absint( $instance['number'] ) : 5;
+        $is_sticky = isset( $instance['is_sticky'] ) ? (bool) $instance['is_sticky'] : false;
         ?>
         <p>
             <label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php esc_html_e( '标题:', 'less' ); ?></label>
@@ -206,6 +234,10 @@ class Less_Popular_Posts_Widget extends WP_Widget {
             <label for="<?php echo $this->get_field_id( 'number' ); ?>"><?php esc_html_e( '显示文章数量:', 'less' ); ?></label>
             <input class="tiny-text" id="<?php echo $this->get_field_id( 'number' ); ?>" name="<?php echo $this->get_field_name( 'number' ); ?>" type="number" step="1" min="1" value="<?php echo $number; ?>" size="3" />
         </p>
+        <p>
+            <input class="checkbox" type="checkbox" <?php checked( $is_sticky ); ?> id="<?php echo $this->get_field_id( 'is_sticky' ); ?>" name="<?php echo $this->get_field_name( 'is_sticky' ); ?>" />
+            <label for="<?php echo $this->get_field_id( 'is_sticky' ); ?>"><?php esc_html_e( '随动（固定在侧边栏）', 'less' ); ?></label>
+        </p>
         <?php
     }
 
@@ -213,6 +245,7 @@ class Less_Popular_Posts_Widget extends WP_Widget {
         $instance = $old_instance;
         $instance['title']  = sanitize_text_field( $new_instance['title'] );
         $instance['number'] = (int) $new_instance['number'];
+        $instance['is_sticky'] = isset( $new_instance['is_sticky'] ) ? (bool) $new_instance['is_sticky'] : false;
         return $instance;
     }
 }
@@ -230,12 +263,21 @@ class Less_Popular_Tags_Widget extends WP_Widget {
     }
 
     public function widget( $args, $instance ) {
+        $number = ! empty( $instance['number'] ) ? absint( $instance['number'] ) : 20;
+        $is_sticky = isset( $instance['is_sticky'] ) ? (bool) $instance['is_sticky'] : false;
+
+        if ( $is_sticky ) {
+             if ( strpos( $args['before_widget'], 'class="widget' ) !== false ) {
+                  $args['before_widget'] = str_replace( 'class="widget', 'class="widget widget-sticky', $args['before_widget'] );
+             } else {
+                  $args['before_widget'] = str_replace( 'class="', 'class="widget-sticky ', $args['before_widget'] );
+             }
+        }
+
         echo $args['before_widget'];
         if ( ! empty( $instance['title'] ) ) {
             echo $args['before_title'] . apply_filters( 'widget_title', $instance['title'] ) . $args['after_title'];
         }
-
-        $number = ! empty( $instance['number'] ) ? absint( $instance['number'] ) : 20;
         
         $tags = get_tags( array(
             'orderby' => 'count',
@@ -257,6 +299,7 @@ class Less_Popular_Tags_Widget extends WP_Widget {
     public function form( $instance ) {
         $title  = isset( $instance['title'] ) ? esc_attr( $instance['title'] ) : '';
         $number = isset( $instance['number'] ) ? absint( $instance['number'] ) : 20;
+        $is_sticky = isset( $instance['is_sticky'] ) ? (bool) $instance['is_sticky'] : false;
         ?>
         <p>
             <label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php esc_html_e( '标题:', 'less' ); ?></label>
@@ -266,6 +309,10 @@ class Less_Popular_Tags_Widget extends WP_Widget {
             <label for="<?php echo $this->get_field_id( 'number' ); ?>"><?php esc_html_e( '显示标签数量:', 'less' ); ?></label>
             <input class="tiny-text" id="<?php echo $this->get_field_id( 'number' ); ?>" name="<?php echo $this->get_field_name( 'number' ); ?>" type="number" step="1" min="1" value="<?php echo $number; ?>" size="3" />
         </p>
+        <p>
+            <input class="checkbox" type="checkbox" <?php checked( $is_sticky ); ?> id="<?php echo $this->get_field_id( 'is_sticky' ); ?>" name="<?php echo $this->get_field_name( 'is_sticky' ); ?>" />
+            <label for="<?php echo $this->get_field_id( 'is_sticky' ); ?>"><?php esc_html_e( '随动（固定在侧边栏）', 'less' ); ?></label>
+        </p>
         <?php
     }
 
@@ -273,6 +320,7 @@ class Less_Popular_Tags_Widget extends WP_Widget {
         $instance = $old_instance;
         $instance['title']  = sanitize_text_field( $new_instance['title'] );
         $instance['number'] = (int) $new_instance['number'];
+        $instance['is_sticky'] = isset( $new_instance['is_sticky'] ) ? (bool) $new_instance['is_sticky'] : false;
         return $instance;
     }
 }
@@ -315,12 +363,21 @@ class Less_Image_Widget extends WP_Widget {
         $image_url = ! empty( $instance['image_url'] ) ? $instance['image_url'] : '';
         $link_url  = ! empty( $instance['link_url'] ) ? $instance['link_url'] : '#';
         $open_new  = isset( $instance['open_new'] ) ? (bool) $instance['open_new'] : true;
-        
+        $is_sticky = isset( $instance['is_sticky'] ) ? (bool) $instance['is_sticky'] : false;
+
         if ( empty( $image_url ) ) return;
 
         // Custom output to match "Image Card" style - we might want to bypass standard wrapper if possible,
         // but we are inside dynamic_sidebar loop.
         // We can just output the content.
+        
+        if ( $is_sticky ) {
+             if ( strpos( $args['before_widget'], 'class="widget' ) !== false ) {
+                  $args['before_widget'] = str_replace( 'class="widget', 'class="widget widget-sticky', $args['before_widget'] );
+             } else {
+                  $args['before_widget'] = str_replace( 'class="', 'class="widget-sticky ', $args['before_widget'] );
+             }
+        }
         
         echo $args['before_widget'];
         // Title is not displayed on frontend as requested
@@ -344,6 +401,7 @@ class Less_Image_Widget extends WP_Widget {
         $image_url = isset( $instance['image_url'] ) ? esc_attr( $instance['image_url'] ) : '';
         $link_url  = isset( $instance['link_url'] ) ? esc_attr( $instance['link_url'] ) : '';
         $open_new  = isset( $instance['open_new'] ) ? (bool) $instance['open_new'] : true;
+        $is_sticky = isset( $instance['is_sticky'] ) ? (bool) $instance['is_sticky'] : false;
         ?>
         <p>
             <label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php esc_html_e( '标题 (可选，前端不显示):', 'less' ); ?></label>
@@ -365,6 +423,10 @@ class Less_Image_Widget extends WP_Widget {
             <input class="checkbox" type="checkbox" <?php checked( $open_new ); ?> id="<?php echo $this->get_field_id( 'open_new' ); ?>" name="<?php echo $this->get_field_name( 'open_new' ); ?>" />
             <label for="<?php echo $this->get_field_id( 'open_new' ); ?>"><?php esc_html_e( '在新窗口打开链接', 'less' ); ?></label>
         </p>
+        <p>
+            <input class="checkbox" type="checkbox" <?php checked( $is_sticky ); ?> id="<?php echo $this->get_field_id( 'is_sticky' ); ?>" name="<?php echo $this->get_field_name( 'is_sticky' ); ?>" />
+            <label for="<?php echo $this->get_field_id( 'is_sticky' ); ?>"><?php esc_html_e( '随动（固定在侧边栏）', 'less' ); ?></label>
+        </p>
         <?php
     }
 
@@ -374,6 +436,7 @@ class Less_Image_Widget extends WP_Widget {
         $instance['image_url'] = esc_url_raw( $new_instance['image_url'] );
         $instance['link_url']  = esc_url_raw( $new_instance['link_url'] );
         $instance['open_new']  = isset( $new_instance['open_new'] ) ? (bool) $new_instance['open_new'] : false;
+        $instance['is_sticky'] = isset( $new_instance['is_sticky'] ) ? (bool) $new_instance['is_sticky'] : false;
         return $instance;
     }
 }
@@ -386,6 +449,6 @@ function less_widgets_scripts( $hook ) {
         return;
     }
     wp_enqueue_media();
-    wp_enqueue_script( 'less-admin-script', get_template_directory_uri() . '/assets/js/admin.js', array( 'jquery' ), '1.0.1', true );
+    wp_enqueue_script( 'less-admin-script', get_template_directory_uri() . '/assets/js/admin.js', array( 'jquery' ), '1.0.2', true );
 }
 add_action( 'admin_enqueue_scripts', 'less_widgets_scripts' );

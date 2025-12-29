@@ -167,7 +167,6 @@
                         'post_type' => 'post',
                         'paged' => $paged,
                         'posts_per_page' => $posts_per_page,
-                        'ignore_sticky_posts' => 1, 
                     );
                     $main_query = new WP_Query( $args );
 

@@ -1,6 +1,6 @@
 {
   "name": "less-theme",
-  "version": "1.0.2",
+  "version": "1.0.4",
   "description": "Less WordPress Theme",
   "scripts": {
     "build": "tailwindcss -i ./assets/css/input.css -o ./assets/css/style.min.css --minify",

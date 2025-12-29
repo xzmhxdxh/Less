@@ -6,6 +6,10 @@
         if ( ! empty( $categories ) && ( ! isset( $options['show_list_cat'] ) || $options['show_list_cat'] ) ) : ?>
             <a href="<?php echo esc_url( get_category_link( $categories[0]->term_id ) ); ?>" class="absolute top-2 left-2 bg-primary text-white text-xs px-2 py-1 rounded shadow-sm hover:bg-blue-600 transition-colors z-10"><?php echo esc_html( $categories[0]->name ); ?></a>
         <?php endif; ?>
+
+        <?php if ( is_sticky() && ( ! isset( $options['show_list_sticky'] ) || $options['show_list_sticky'] ) ) : ?>
+            <span class="absolute top-2 right-2 bg-red-500 text-white text-xs px-2 py-1 rounded shadow-sm z-10">置顶</span>
+        <?php endif; ?>
         
         <a href="<?php the_permalink(); ?>" class="block w-full h-full">
             <?php if ( has_post_thumbnail() ) : ?>

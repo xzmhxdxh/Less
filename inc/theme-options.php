@@ -30,7 +30,7 @@ function less_admin_scripts( $hook ) {
     }
     wp_enqueue_media();
     wp_enqueue_script( 'jquery-ui-sortable' );
-    wp_enqueue_script( 'less-admin-script', get_template_directory_uri() . '/assets/js/admin.js', array( 'jquery', 'jquery-ui-sortable' ), '1.0.3', true );
+    wp_enqueue_script( 'less-admin-script', get_template_directory_uri() . '/assets/js/admin.js', array( 'jquery', 'jquery-ui-sortable' ), '1.0.4', true );
 }
 add_action( 'admin_enqueue_scripts', 'less_admin_scripts' );
 
@@ -54,6 +54,7 @@ function less_options_page_html() {
         'posts_per_page_home'    => 10,
         'posts_per_page_archive' => 10,
         'show_list_cat'          => 1,
+        'show_list_sticky'       => 1,
     );
     $options = get_option( 'less_options', $defaults );
     $active_tab = isset( $_GET['tab'] ) ? $_GET['tab'] : 'general';
@@ -467,6 +468,14 @@ function less_options_page_html() {
                         </td>
                     </tr>
                     <tr valign="top">
+                        <th scope="row">列表封面图置顶标签显示</th>
+                        <td>
+                            <input type="hidden" name="less_options[show_list_sticky]" value="0">
+                            <input type="checkbox" name="less_options[show_list_sticky]" value="1" <?php checked( ! isset($options['show_list_sticky']) || $options['show_list_sticky'] == 1 ); ?>>
+                            <label for="less_options[show_list_sticky]">在文章列表封面图右上角显示置顶标签（默认开启）</label>
+                        </td>
+                    </tr>
+                    <tr valign="top">
                         <th scope="row">显示作者名</th>
                         <td>
                             <input type="checkbox" name="less_options[show_author]" value="1" <?php checked( isset($options['show_author']) && $options['show_author'] == 1 ); ?>>
@@ -543,7 +552,7 @@ function less_options_page_html() {
                     </tr>
                     <tr valign="top">
                         <th scope="row">版本号</th>
-                        <td>1.0.3 (2025.12.20)</td>
+                        <td>1.0.4 (2025.12.29)</td>
                     </tr>
                     <tr valign="top">
                         <th scope="row">主题官网</th>
